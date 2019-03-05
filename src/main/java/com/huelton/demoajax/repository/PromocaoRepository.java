@@ -10,9 +10,10 @@ import com.huelton.demoajax.domain.Promocao;
 
 public interface PromocaoRepository extends JpaRepository<Promocao, Long>{
 	
-	@Transactional(readOnly = true)
+	//mudando o padrao do JPA para utilizarmos o UPDATE no banco pelo JPQL
+	@Transactional(readOnly = false)
 	@Modifying
-	@Query("update Promocao p set p.likes = p.likes + 1 where p.id = : id")
+	@Query("update Promocao p set p.likes = p.likes + 1 where p.id = :id")
 	void updateSomarLikes(@Param("id") Long id);
 	
 	@Query("select p.likes from Promocao p where p.id = :id")
