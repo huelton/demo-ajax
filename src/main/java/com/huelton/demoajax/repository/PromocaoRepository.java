@@ -12,7 +12,7 @@ import com.huelton.demoajax.domain.Promocao;
 
 public interface PromocaoRepository extends JpaRepository<Promocao, Long>{
 	
-	@Query("SELECT DISTINCT p.site FROM Promocao p WHERE p.site LIKE %:site%")
+	@Query("SELECT DISTINCT p.site FROM Promocao p WHERE p.site LIKE %:site	%")
 	List<String> findSitesByTermo(@Param("site") String site);
 	
 	//mudando o padrao do JPA para utilizarmos o UPDATE no banco pelo JPQL
