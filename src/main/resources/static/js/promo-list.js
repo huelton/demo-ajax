@@ -55,6 +55,26 @@ function loadByScrollBar(pageNumber) {
 	})
 }
 
+// auto complete
+
+$("#autocomplete-input").autocomplete({
+	
+	source: function(request, response) {
+		$.ajax({
+			method: "GET",
+			url: "/promocao/site",
+			data: {
+				termo: request.term
+			},
+			success: function(result) {
+				response(result);
+			}
+		});
+	}
+	
+});
+
+
 // Adicionar Likes
 $(document).on(
 		"click",
