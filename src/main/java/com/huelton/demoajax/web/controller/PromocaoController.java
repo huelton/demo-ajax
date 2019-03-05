@@ -40,6 +40,15 @@ public class PromocaoController {
 	
    @Autowired
 	private CategoriaRepository categoriaRepository;
+   
+   
+   // ======================= AUTO COMPLETE=====================================================
+   
+   @GetMapping("/site")
+   public ResponseEntity<?> autoCompleteByTermo(@RequestParam("termo") String termo ) {
+	   List<String> sites = promocaoRepository.findSitesByTermo(termo);
+	   return ResponseEntity.ok(sites);
+   }
   
    // ======================= ADD LIKES ========================================================
    
@@ -49,7 +58,6 @@ public class PromocaoController {
 	   int likes = promocaoRepository.findLikesById(id);
 	   return ResponseEntity.ok(likes);
    }
-   
    
    // ======================= LISTAR OFERTAS ===================================================
    
