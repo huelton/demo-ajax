@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -28,6 +29,7 @@ import com.huelton.demoajax.domain.Categoria;
 import com.huelton.demoajax.domain.Promocao;
 import com.huelton.demoajax.repository.CategoriaRepository;
 import com.huelton.demoajax.repository.PromocaoRepository;
+import com.huelton.demoajax.service.PromocaoDataTablesService;
 
 @Controller
 @RequestMapping("/promocao")
@@ -41,8 +43,20 @@ public class PromocaoController {
    @Autowired
 	private CategoriaRepository categoriaRepository;
    
+   // ======================= DATATABLES ========================================================
    
-   // ======================= AUTO COMPLETE=====================================================
+   @GetMapping("/tabela")
+   public String showTabela() {
+	   return "promo-datatables";
+   }
+   
+   @GetMapping("/datatables/server")
+   public ResponseEntity<?> datatables(HttpServletRequest request) {
+	   Map<String, Object> data = new PromocaoDataTablesService().execute(promocaoRepository, request);
+	   return ResponseEntity.ok(data);	
+   }
+   
+   // ======================= AUTO COMPLETE =====================================================
    
    @GetMapping("/site")
    public ResponseEntity<?> autoCompleteByTermo(@RequestParam("termo") String termo ) {
@@ -77,7 +91,7 @@ public class PromocaoController {
 	   return "promo-list";
    }
    
-   // ======================= LISTAR CARDS OFERTAS ===================================================
+   // ======================= LISTAR CARDS OFERTAS ==============================================
    
    @GetMapping("/list/ajax")
    public String listarCards(@RequestParam(name = "page", defaultValue = "1") int page,
