@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.huelton.demoajax.domain.Categoria;
 import com.huelton.demoajax.domain.Promocao;
@@ -49,6 +50,17 @@ public class PromocaoController {
 	   model.addAttribute("promocoes", promocaoRepository.findAll(pageRequest));	   
 	   return "promo-list";
    }
+   
+   // ======================= LISTAR CARDS OFERTAS ===================================================
+   
+   @GetMapping("/list/ajax")
+   public String listarCards(@RequestParam(name = "page", defaultValue = "1") int page, ModelMap model) {
+	   Sort sort = new Sort(Sort.Direction.DESC, "dtCadastro");
+	   PageRequest pageRequest = PageRequest.of(page, 8, sort);
+	   model.addAttribute("promocoes", promocaoRepository.findAll(pageRequest));	   
+	   return "promo-card";
+   }
+   
    
    
    // ======================= ADD OFERTAS =======================================================

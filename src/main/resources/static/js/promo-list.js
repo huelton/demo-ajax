@@ -1,12 +1,34 @@
-// Efeito infinite scroll
+
+var pageNumber = 0;
+
+//Efeito infinite scroll
 $(window).scroll(function() {
 	
 	var scrollTop = $(this).scrollTop();
 	var conteudo = $(document).height() - $(window).height();
 	
-	console.log('scrollTop', scrollTop, ' | ', 'conteudo', conteudo );
+	console.log('scrollTop: ', scrollTop, ' | ', 'conteudo', conteudo );
 	
 	if(scrollTop >= conteudo) {
-		console.log('***');
+		pageNumber ++;		
+		setTimeout(function () {
+			loadByScrollBar(pageNumber);
+		}, 200);
 	}
 });
+
+
+function loadByScrollBar(pageNumber) {
+	
+	$.ajax({
+		method: "GET",
+		url: "/promocao/list/ajax",
+		data: {
+			page: pageNumber
+		},
+		success: function(response) {
+			console.log("resposta > ", response)
+
+		}
+	})
+}
