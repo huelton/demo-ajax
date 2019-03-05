@@ -10,4 +10,9 @@ public class HomeController {
     public String index(){
     	return "redirect:/promocao/add";
     }
+	
+	@GetMapping("/table")
+    public String table(){
+    	return "promo-datatables";
+    }
 }
