@@ -39,13 +39,12 @@ function loadByScrollBar(pageNumber) {
 			//150 é utilizado para trazer pouca informações e sair do if
            if(response.length > 150){
 			
-			$(".row").fadeIn(250, function() {
-        	   $(this).append(response);
-           });
+			$(".row").append( $(response).hide().fadeIn(400) );
 			
            }else {
-        	   $("#fim-btn").show();
         	   $("#loader-img").removeClass("loader");
+        	   $("#fim-btn").show();
+        	   
            }
 		},
 		error: function(xhr) {
@@ -56,3 +55,10 @@ function loadByScrollBar(pageNumber) {
 		}
 	})
 }
+
+// Adicionar Likes
+
+$("button[id*='likes-btn-").on("click", function() {
+	var id = $(this).attr("id").split("-")[2];
+console.log("id: ", id);
+});
