@@ -31,10 +31,11 @@ public class PromocaoDataTablesService {
 		
 		String column = columnName(request);
 		Sort.Direction direction = orderBy(request);
+		String search = searchBy(request);
 		
 		Pageable pageable = PageRequest.of(current, length, direction, column);
 		
-		Page<Promocao> page = queryBy(promocaoRepository, pageable);
+		Page<Promocao> page = queryBy(search, promocaoRepository, pageable);
 		
 		Map<String, Object> json = new LinkedHashMap<>();
 		json.put("draw", draw);
@@ -45,9 +46,22 @@ public class PromocaoDataTablesService {
 		return json;
 	}
 
-	private Page<Promocao> queryBy(PromocaoRepository promocaoRepository, Pageable pageable) {
+
+
+	private Page<Promocao> queryBy(String search, PromocaoRepository promocaoRepository, Pageable pageable) {
 		
-		return promocaoRepository.findAll(pageable);
+		if(search.isEmpty()) {
+			return promocaoRepository.findAll(pageable);
+		}
+		
+		return promocaoRepository.findByTituloOrSiteOrCategoria(search, pageable);
+	}
+	
+	private String searchBy(HttpServletRequest request) {
+		
+		return request.getParameter("search[value]").isEmpty()
+				? ""
+				: request.getParameter("search[value]");
 	}
 
 	private Direction orderBy(HttpServletRequest request) {

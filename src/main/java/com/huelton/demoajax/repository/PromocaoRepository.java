@@ -15,6 +15,11 @@ import com.huelton.demoajax.domain.Promocao;
 
 public interface PromocaoRepository extends JpaRepository<Promocao, Long>{
 	
+	@Query("SELECT p FROM Promocao p WHERE p.titulo LIKE %:search% "
+			+ "OR p.site LIKE %:search% "
+			+ "OR p.categoria.titulo LIKE %:search%")
+	Page<Promocao> findByTituloOrSiteOrCategoria(@Param("search") String search, Pageable pageable);
+	
 	@Query("SELECT p FROM Promocao p WHERE p.site LIKE :site")
 	Page<Promocao> findBySite(@Param("site") String site, Pageable pageable);
 	
