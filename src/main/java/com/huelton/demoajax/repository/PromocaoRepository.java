@@ -2,6 +2,9 @@ package com.huelton.demoajax.repository;
 
 import java.util.List;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,7 +15,10 @@ import com.huelton.demoajax.domain.Promocao;
 
 public interface PromocaoRepository extends JpaRepository<Promocao, Long>{
 	
-	@Query("SELECT DISTINCT p.site FROM Promocao p WHERE p.site LIKE %:site	%")
+	@Query("SELECT p FROM Promocao p WHERE p.site LIKE :site")
+	Page<Promocao> findBySite(@Param("site") String site, Pageable pageable);
+	
+	@Query("SELECT DISTINCT p.site FROM Promocao p WHERE p.site LIKE %:site%")
 	List<String> findSitesByTermo(@Param("site") String site);
 	
 	//mudando o padrao do JPA para utilizarmos o UPDATE no banco pelo JPQL

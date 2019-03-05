@@ -87,12 +87,12 @@ $("#autocomplete-submit").on("click", function() {
 			$("#fim-btn").hide();
 			$(".row").fadeOut(400, function() {
 				$(this).empty();
-			})
+			});
 		},
 		success: function(response) {
 			$(".row").fadeIn(250, function() {
 				$(this).append(response);
-			})
+			});
 		},
 		error: function(xhr) {
 			alert("Ops, algo deu errado: " + xhr.status + ", "
