@@ -1,7 +1,7 @@
 package com.huelton.demoajax.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
-
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.huelton.demoajax.domain.Promocao;
 
 public interface PromocaoRepository extends JpaRepository<Promocao, Long>{
+	
+	@Query("SELECT p FROM Promocao p WHERE p.preco = :preco")
+	Page<Promocao> findByPreco(@Param("preco") BigDecimal preco, Pageable pageable);
 	
 	@Query("SELECT p FROM Promocao p WHERE p.titulo LIKE %:search% "
 			+ "OR p.site LIKE %:search% "

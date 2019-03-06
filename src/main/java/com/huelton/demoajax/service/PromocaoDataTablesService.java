@@ -1,5 +1,6 @@
 package com.huelton.demoajax.service;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -52,6 +53,13 @@ public class PromocaoDataTablesService {
 		
 		if(search.isEmpty()) {
 			return promocaoRepository.findAll(pageable);
+		}
+		
+		//valida se o campo recebeu um valor numerico de preco por expressao regular
+		// para validação de expressao regula
+		if(search.matches("^[0-9]+([.,][0-9]{2})?$")) {
+			search = search.replace(",", "."); // necessario para evitar exception com o valor
+			return promocaoRepository.findByPreco(new BigDecimal(search), pageable);
 		}
 		
 		return promocaoRepository.findByTituloOrSiteOrCategoria(search, pageable);
